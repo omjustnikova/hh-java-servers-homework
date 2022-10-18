@@ -5,7 +5,7 @@ public class JerseyAppTest {
 
   @Test
   public void mainTest() {
-    Assertions.assertTrue(true);
+    Assertions.assertTrue(false);
   }
 
 }
