@@ -176,8 +176,6 @@ public class ServletApplicationTest {
     Thread thread = new Thread(() -> {
       try {
         ServletApplication.main(new String[]{});
-      } catch (InterruptedException e) {
-        Thread.currentThread().interrupt();
       } catch (Exception e) {
         throw new RuntimeException(e);
       }

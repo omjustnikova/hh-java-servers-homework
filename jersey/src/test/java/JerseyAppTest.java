@@ -202,8 +202,6 @@ public class JerseyAppTest {
     Thread thread = new Thread(() -> {
       try {
         JerseyApplication.main(new String[]{});
-      } catch (InterruptedException e) {
-        Thread.currentThread().interrupt();
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
