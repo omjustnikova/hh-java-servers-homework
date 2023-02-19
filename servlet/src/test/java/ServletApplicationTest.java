@@ -146,7 +146,9 @@ public class ServletApplicationTest {
     String url = HOST + "/counter/clear";
     Uri uri = Uri.create(url);
 
-    cookieStore.add(uri, new DefaultCookie("hh-auth", authCookieValue));
+    if (authCookieValue != null) {
+      cookieStore.add(uri, new DefaultCookie("hh-auth", authCookieValue));
+    }
     return client.preparePost(url)
         .execute()
         .toCompletableFuture();
