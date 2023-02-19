@@ -71,7 +71,7 @@ public class JerseyAppTest {
     assertTrue(isStatusCodeOk(response), "Server response is not ok");
 
     int counterValue = getCounterValue();
-    assertEquals(initCounterValue + 3 - 2, counterValue, "Subtraction is not works properly");
+    assertEquals(initCounterValue + 3 - 2, counterValue, "Subtraction does not works properly");
   }
 
   @Test
@@ -84,7 +84,7 @@ public class JerseyAppTest {
     assertTrue(isStatusCodeOk(response));
 
     int counterValue = getCounterValue();
-    assertEquals(0, counterValue, "Counter is not cleared");
+    assertEquals(0, counterValue, "Counter didn't cleared");
   }
 
   @Test
