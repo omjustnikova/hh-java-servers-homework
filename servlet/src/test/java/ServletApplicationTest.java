@@ -58,7 +58,7 @@ public class ServletApplicationTest {
     increaseCounter().get();
 
     Response response = decreaseCounter(2).get();
-    assertTrue(isStatusCodeOk(response),  "Server response is not ok");
+    assertTrue(isStatusCodeOk(response), "Server response is not ok");
 
     int counterValue = getCounterValue();
     assertEquals(initCounterValue + 3 - 2, counterValue, "Subtraction is not works properly");
@@ -99,9 +99,9 @@ public class ServletApplicationTest {
       futures.add(increaseCounter());
     }
 
-    Integer result = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
-        .thenApply(v -> getCounterValue())
-        .get();
+    CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).get();
+    int result = getCounterValue();
+
     assertEquals(initValue + increaseTo, result, "Counter is not thread safe");
   }
 
@@ -123,9 +123,9 @@ public class ServletApplicationTest {
       futures.add(decreaseCounter(1));
     }
 
-    Integer result = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
-        .thenApply(v -> getCounterValue())
-        .get();
+    CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).get();
+    int result = getCounterValue();
+
     assertEquals(initValue + increaseTo - decreaseTo, result, "Counter is not thread safe");
   }
 
