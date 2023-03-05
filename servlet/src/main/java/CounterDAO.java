@@ -1,8 +1,10 @@
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class CounterDAO {
 
     private static final CounterDAO INSTANCE = new CounterDAO();
 
-    private static int COUNTER = 0;
+    private static AtomicInteger COUNTER = new AtomicInteger(0);
 
     private CounterDAO() {}
 
@@ -10,20 +12,21 @@ public class CounterDAO {
         return INSTANCE;
     }
 
-    public static int getCounter() {
+    public static AtomicInteger getCounter() {
         return COUNTER;
     }
 
     public static void incrementCounter() {
-       COUNTER++;
+       COUNTER.incrementAndGet() ;
     }
 
     public static void subtractCounter(int subtractionValue) {
-        COUNTER-=subtractionValue;
+        int newValue = COUNTER.get() - subtractionValue;
+        COUNTER.set(newValue);
     }
 
     public static void clearCounter() {
-        COUNTER = 0;
+        COUNTER.set(0);
     }
 
 

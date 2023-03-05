@@ -33,12 +33,12 @@ public class ServletApplicationTest {
     runAndWaitServer();
   }
 
-//  @Test
+  @Test
   public void counterWorksTest() {
     getCounterValue();
   }
 
-//  @Test
+  @Test
   public void testCounterIncreaseWorks() throws Exception {
     int initCounterValue = getCounterValue();
 
@@ -49,7 +49,7 @@ public class ServletApplicationTest {
     assertEquals(initCounterValue + 1, counterValue, "Counter value didnt change");
   }
 
-//  @Test
+  @Test
   public void testCounterDecreaseWorks() throws Exception {
     int initCounterValue = getCounterValue();
 
@@ -64,7 +64,7 @@ public class ServletApplicationTest {
     assertEquals(initCounterValue + 3 - 2, counterValue, "Subtraction does not works properly");
   }
 
-//  @Test
+  @Test
   public void testClearWorksCorrect() throws Exception {
     increaseCounter().get();
     increaseCounter().get();
@@ -77,7 +77,7 @@ public class ServletApplicationTest {
     assertEquals(0, counterValue, "Counter didn't cleared");
   }
 
-//  @Test
+  @Test
   public void testClearAuthWorksCorrectWithShortCookie() throws Exception {
     increaseCounter().get();
 
@@ -89,7 +89,7 @@ public class ServletApplicationTest {
     assertNotEquals(0, counterValue, "Counter is cleared, but should not");
   }
 
-//  @Test
+  @Test
   public void testClearAuthWorksCorrectWithoutCookie() throws Exception {
     increaseCounter().get();
 
@@ -101,7 +101,7 @@ public class ServletApplicationTest {
     assertNotEquals(0, counterValue, "Counter is cleared, but should not");
   }
 
-//  @Test
+  @Test
   public void testMultithreadingIncreaseWorksCorrect() throws Exception {
     int increaseTo = 20_000;
     int initValue = getCounterValue();
@@ -117,7 +117,7 @@ public class ServletApplicationTest {
     assertEquals(initValue + increaseTo, result, "Counter is not thread safe");
   }
 
-//  @Test
+  @Test
   public void testMultithreadingDecreaseWorksCorrect() throws Exception {
     int decreaseTo = 20_000;
     int increaseTo = 40_000;

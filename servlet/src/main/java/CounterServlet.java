@@ -12,14 +12,17 @@ public class CounterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter writer = response.getWriter();
-        writer.print("<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><title>Increment Counter</title></head><body>Counter: " + CounterDAO.getInstance().getCounter() + "<form method='POST'><input type='submit' value='Increment Counter'/></form></body></html>");
+        writer.print(CounterDAO.getInstance().getCounter());
         writer.flush();
     }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         CounterDAO.getInstance().incrementCounter();
-        response.sendRedirect("/counter");
     }
 
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int subtractionValue = Integer.parseInt(request.getHeader("Subtraction-Value"));
+        CounterDAO.getInstance().subtractCounter(subtractionValue);
+    }
 }
