@@ -20,7 +20,7 @@ public class CounterDAO {
        COUNTER.incrementAndGet() ;
     }
 
-    public static void subtractCounter(int subtractionValue) {
+    public static synchronized void subtractCounter(int subtractionValue) {
         int newValue = COUNTER.get() - subtractionValue;
         COUNTER.set(newValue);
     }

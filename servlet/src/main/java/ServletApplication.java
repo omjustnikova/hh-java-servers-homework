@@ -8,6 +8,7 @@ public class ServletApplication {
     ServletContextHandler handler = new ServletContextHandler(server, "/");
     handler.addServlet(StatusServlet.class, "/status");
     handler.addServlet(CounterServlet.class, "/counter");
+    handler.addServlet(CounterClearServlet.class, "/counter/clear");
     server.setHandler(handler);
     return server;
   }
