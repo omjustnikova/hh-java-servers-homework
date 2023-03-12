@@ -1,14 +1,26 @@
+package servlet;
+
+import dao.CounterDAO;
+import dao.ICounterDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.w3c.dom.css.Counter;
+
 import java.io.IOException;
 import java.util.*;
 
 @WebServlet(urlPatterns = "/counter/clear")
 public class CounterClearServlet extends HttpServlet {
+
+    private ICounterDAO counterDAO;
+
+    public CounterClearServlet(ICounterDAO counterDAO) {
+        this.counterDAO = counterDAO;
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,10 +38,10 @@ public class CounterClearServlet extends HttpServlet {
                 return;
             }
 
-            CounterDAO.getInstance().clearCounter();
+            counterDAO.clearCounter();
     }
 
-    private void setUnauthorizedResponseStatus(HttpServletResponse response) {
+    protected void setUnauthorizedResponseStatus(HttpServletResponse response) {
         response.setStatus(401);
     }
 }
