@@ -14,26 +14,19 @@ public class CounterClearServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        boolean clearCounterIsSuccessful = false;
-        Optional<Cookie> hhAuthCookie = Optional.ofNullable(request.getCookies())
+        Optional<String> hhAuthCookieValue = Optional.ofNullable(request.getCookies())
                  .stream()
                  .flatMap(Arrays::stream)
                  .filter(cookie -> Objects.equals("hh-auth", cookie.getName()))
+                 .map(Cookie::getValue)
                  .findFirst();
 
-        if (hhAuthCookie.isPresent()) {
-            Optional<String> cookieValue =
-                    Optional.ofNullable(hhAuthCookie.get().getValue());
-
-            if (cookieValue.isPresent() && cookieValue.get().length() > 10) {
-                CounterDAO.getInstance().clearCounter();
-                clearCounterIsSuccessful = true;
+            if (hhAuthCookieValue.isEmpty() || hhAuthCookieValue.get().length() <= 10) {
+                setPreconditionFailedResponseStatus(response);
+                return;
             }
-        }
 
-        if (!clearCounterIsSuccessful) {
-            setPreconditionFailedResponseStatus(response);
-        }
+            CounterDAO.getInstance().clearCounter();
     }
 
     private void setPreconditionFailedResponseStatus(HttpServletResponse response) {
