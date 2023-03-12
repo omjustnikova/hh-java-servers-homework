@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
@@ -14,25 +14,20 @@ public class CounterClearServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //TODO: simplify the code if it is possible
         boolean clearCounterIsSuccessful = false;
+        Optional<Cookie> hhAuthCookie = Optional.ofNullable(request.getCookies())
+                 .stream()
+                 .flatMap(Arrays::stream)
+                 .filter(cookie -> Objects.equals("hh-auth", cookie.getName()))
+                 .findFirst();
 
-        if (request.getCookies() != null) {
+        if (hhAuthCookie.isPresent()) {
+            Optional<String> cookieValue =
+                    Optional.ofNullable(hhAuthCookie.get().getValue());
 
-            Optional<Cookie> cookie =
-                    Stream.of(request.getCookies())
-                            .filter(cookieVal -> cookieVal.getName().equals("hh-auth"))
-                            .findFirst();
-
-            if (cookie.isPresent()) {
-
-                Optional<String> cookieValue =
-                        Optional.ofNullable(cookie.get().getValue());
-
-                if (cookieValue.isPresent() && cookieValue.get().length() > 10) {
-                    CounterDAO.getInstance().clearCounter();
-                    clearCounterIsSuccessful = true;
-                }
+            if (cookieValue.isPresent() && cookieValue.get().length() > 10) {
+                CounterDAO.getInstance().clearCounter();
+                clearCounterIsSuccessful = true;
             }
         }
 
