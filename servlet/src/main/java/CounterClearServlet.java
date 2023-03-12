@@ -14,12 +14,14 @@ public class CounterClearServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Optional<String> hhAuthCookieValue = Optional.ofNullable(request.getCookies())
-                 .stream()
-                 .flatMap(Arrays::stream)
-                 .filter(cookie -> Objects.equals("hh-auth", cookie.getName()))
-                 .map(Cookie::getValue)
-                 .findFirst();
+        Optional<String> hhAuthCookieValue = Optional.ofNullable(request)
+                .flatMap(requestObj -> Optional.ofNullable(requestObj.getCookies()))
+                .stream()
+                .flatMap(Arrays::stream)
+                .filter(cookie -> Objects.equals("hh-auth", cookie.getName()))
+                .findFirst()
+                .map(Cookie::getValue);
+
 
             if (hhAuthCookieValue.isEmpty() || hhAuthCookieValue.get().length() <= 10) {
                 setPreconditionFailedResponseStatus(response);
