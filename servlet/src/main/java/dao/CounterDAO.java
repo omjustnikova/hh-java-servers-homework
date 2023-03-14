@@ -1,12 +1,12 @@
 package dao;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.LongAdder;
 
 public class CounterDAO implements ICounterDAO {
 
     private final static CounterDAO INSTANCE = new CounterDAO();
 
-    private final AtomicInteger counter = new AtomicInteger(0);
+    private final LongAdder counter = new LongAdder();
 
     private CounterDAO() {}
 
@@ -15,24 +15,25 @@ public class CounterDAO implements ICounterDAO {
     }
 
     @Override
-    public AtomicInteger getCounter() {
-        return counter;
+    public int getCounter() {
+        return counter.intValue();
     }
 
     @Override
     public void incrementCounter() {
-       counter.incrementAndGet() ;
+        counter.increment() ;
     }
 
     @Override
-    public synchronized void subtractCounter(int subtractionValue) {
-        int newValue = counter.get() - subtractionValue;
-        counter.set(newValue);
+    public void subtractCounter(int subtractionValue) {
+        if (subtractionValue != 0) {
+            counter.add(-1 * subtractionValue);
+        }
     }
 
     @Override
     public void clearCounter() {
-        counter.set(0);
+        counter.reset();
     }
 
 
