@@ -13,6 +13,8 @@ import java.io.PrintWriter;
 @WebServlet(urlPatterns = "/counter")
 public class CounterServlet extends HttpServlet {
 
+    public static final int HTTP_RESPONSE_PRECONDITION_FAILED = 412;
+
     private ICounterDAO counterDAO;
 
     public CounterServlet(ICounterDAO counterDAO) {
@@ -33,7 +35,11 @@ public class CounterServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int subtractionValue = Integer.parseInt(request.getHeader("Subtraction-Value"));
-        counterDAO.subtractCounter(subtractionValue);
+        try {
+            int subtractionValue = Integer.parseInt(request.getHeader("Subtraction-Value"));
+            counterDAO.subtractCounter(subtractionValue);
+        } catch (NumberFormatException e) {
+            response.setStatus(HTTP_RESPONSE_PRECONDITION_FAILED);
+        }
     }
 }
