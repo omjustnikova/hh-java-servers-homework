@@ -34,14 +34,10 @@ public class CounterClearServlet extends HttpServlet {
 
 
             if (hhAuthCookieValue.isEmpty() || hhAuthCookieValue.get().length() <= 10) {
-                setUnauthorizedResponseStatus(response);
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
 
             counterDAO.clearCounter();
-    }
-
-    protected void setUnauthorizedResponseStatus(HttpServletResponse response) {
-        response.setStatus(401);
     }
 }

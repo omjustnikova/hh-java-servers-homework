@@ -1,6 +1,5 @@
 package servlet;
 
-import dao.CounterDAO;
 import dao.ICounterDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,8 +11,6 @@ import java.io.PrintWriter;
 
 @WebServlet(urlPatterns = "/counter")
 public class CounterServlet extends HttpServlet {
-
-    public static final int HTTP_RESPONSE_PRECONDITION_FAILED = 412;
 
     private ICounterDAO counterDAO;
 
@@ -39,7 +36,7 @@ public class CounterServlet extends HttpServlet {
             int subtractionValue = Integer.parseInt(request.getHeader("Subtraction-Value"));
             counterDAO.subtractCounter(subtractionValue);
         } catch (NumberFormatException e) {
-            response.setStatus(HTTP_RESPONSE_PRECONDITION_FAILED);
+            response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
         }
     }
 }
