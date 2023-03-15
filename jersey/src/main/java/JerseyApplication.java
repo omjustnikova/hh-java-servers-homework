@@ -1,23 +1,25 @@
-import jakarta.ws.rs.ApplicationPath;
-import jakarta.ws.rs.core.Application;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
-import resource.CounterDTO;
-
+import resource.CounterResource;
+import resource.StatusResource;
 
 public class JerseyApplication {
 
     private static Server createServer(int port) {
         Server server = new Server(port);
 
-        ServletContextHandler handler = new ServletContextHandler();
+        ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.NO_SESSIONS);
         server.setHandler(handler);
+        handler.setContextPath("/");
 
-        ServletHolder servletHolder = handler.addServlet(ServletContainer.class, "/*");
-        servletHolder.setInitOrder(0);
-        servletHolder.setInitParameter("jersey.config.server.provider.packages", "resource");
+        ResourceConfig resourceConfig = new ResourceConfig();
+        resourceConfig.register(StatusResource.class);
+        resourceConfig.register(CounterResource.class);
+
+        handler.addServlet(new ServletHolder(new ServletContainer(resourceConfig)), "/*");
 
         return server;
     }
