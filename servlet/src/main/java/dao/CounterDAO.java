@@ -8,7 +8,8 @@ public class CounterDAO implements ICounterDAO {
 
     private final LongAdder counter = new LongAdder();
 
-    private CounterDAO() {}
+    private CounterDAO() {
+    }
 
     public static CounterDAO getInstance() {
         return INSTANCE;
@@ -21,7 +22,7 @@ public class CounterDAO implements ICounterDAO {
 
     @Override
     public void incrementCounter() {
-        counter.increment() ;
+        counter.increment();
     }
 
     @Override
@@ -35,6 +36,4 @@ public class CounterDAO implements ICounterDAO {
     public void clearCounter() {
         counter.reset();
     }
-
-
 }

@@ -8,27 +8,27 @@ import servlet.StatusServlet;
 
 public class ServletApplication {
 
-  private static Server createServer(int port) {
-    Server server = new Server(port);
-    CounterDAO counterDAO = CounterDAO.getInstance();
-    ServletContextHandler handler = new ServletContextHandler(server, "/");
+    private static Server createServer(int port) {
+        Server server = new Server(port);
+        CounterDAO counterDAO = CounterDAO.getInstance();
+        ServletContextHandler handler = new ServletContextHandler(server, "/");
 
-    handler.addServlet(StatusServlet.class, "/status");
+        handler.addServlet(StatusServlet.class, "/status");
 
-    CounterServlet counterServlet = new CounterServlet(counterDAO);
-    handler.addServlet(new ServletHolder(counterServlet), "/counter");
+        CounterServlet counterServlet = new CounterServlet(counterDAO);
+        handler.addServlet(new ServletHolder(counterServlet), "/counter");
 
-    CounterClearServlet counterClearServlet = new CounterClearServlet(counterDAO);
-    handler.addServlet(new ServletHolder(counterClearServlet), "/counter/clear");
+        CounterClearServlet counterClearServlet = new CounterClearServlet(counterDAO);
+        handler.addServlet(new ServletHolder(counterClearServlet), "/counter/clear");
 
-    server.setHandler(handler);
-    return server;
-  }
+        server.setHandler(handler);
+        return server;
+    }
 
-  public static void main(String[] args) throws Exception {
-    int port = 8081;
-    Server server = createServer(port);
-    server.start();
-    server.join();
-  }
+    public static void main(String[] args) throws Exception {
+        int port = 8081;
+        Server server = createServer(port);
+        server.start();
+        server.join();
+    }
 }

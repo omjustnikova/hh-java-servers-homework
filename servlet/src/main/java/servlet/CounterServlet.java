@@ -6,13 +6,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet(urlPatterns = "/counter")
 public class CounterServlet extends HttpServlet {
 
-    private ICounterDAO counterDAO;
+    private final ICounterDAO counterDAO;
 
     public CounterServlet(ICounterDAO counterDAO) {
         this.counterDAO = counterDAO;
